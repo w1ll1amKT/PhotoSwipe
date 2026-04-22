@@ -1,24 +1,21 @@
-//
-//  ContentView.swift
-//  PhotoSwipe
-//
-//  Created by user290288 on 4/22/26.
-//
-
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var viewModel = SwipeDeckViewModel()
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        
+        ZStack {
+            
+            if let asset = viewModel.assets.first {
+                PhotoCardView(asset: asset)
+            } else {
+                Text("Loading photos...")
+            }
         }
-        .padding()
+        .onAppear {
+            viewModel.loadPhotos()
+        }
     }
-}
-
-#Preview {
-    ContentView()
 }
